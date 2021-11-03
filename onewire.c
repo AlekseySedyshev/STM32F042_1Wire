@@ -3,7 +3,7 @@
 #define OW_USART 				USART2
 #define OW_DMA_CH_RX 		DMA1_Channel5
 #define OW_DMA_CH_TX 		DMA1_Channel4
-#define OW_DMA_FLAG			(DMA1->ISR & DMA_ISR_TCIF4)
+#define OW_DMA_FLAG		(DMA1->ISR & DMA_ISR_TCIF4)
 #define RESET_DMA_FLAG 	DMA1->IFCR |=DMA_IFCR_CTCIF4
 
 
@@ -61,7 +61,7 @@ uint8_t OW_Init(void) 																							{ //Init Usart and DMA
 	RCC->APB1ENR |=RCC_APB1ENR_USART2EN;
 
 	OW_USART->CR1 &= 	(~USART_CR1_UE);
-	OW_USART->BRR	 = 	CPU_FREQ/115200;
+	OW_USART->BRR	 = 	CPU_FREQ/100000;
 	OW_USART->CR3 |=	USART_CR3_HDSEL;	//Half Duplex Mode
 	OW_USART->CR1 |= 	USART_CR1_RE | USART_CR1_TE | USART_CR1_UE;
 
@@ -134,7 +134,7 @@ uint8_t OW_Reset(void) 																							{	//RESET function (check online D
 	ow_presence = OW_USART->RDR;
 
 	OW_USART->CR1 	&= 	(~USART_CR1_UE); 
-	OW_USART->BRR  	 = 	CPU_FREQ/115200;
+	OW_USART->BRR  	 = 	CPU_FREQ/100000;
 	OW_USART->CR1 	|= 	 USART_CR1_UE;
 	
 	if (ow_presence != ONEWIRE_NOBODY) {
